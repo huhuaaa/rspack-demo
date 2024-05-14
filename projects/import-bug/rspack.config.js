@@ -1,3 +1,4 @@
+const { IgnorePlugin } = require('@rspack/core');
 const path = require('path');
 
 module.exports = {
@@ -13,6 +14,11 @@ module.exports = {
     // Add '.ts' and '.tsx' as resolvable extensions.
     extensions: [".ts", ".tsx", ".js", ".json"]
   },
+  plugins: [
+    new IgnorePlugin({
+
+    }),
+  ],
   module: {
     rules: [
       // swc代替babel构建，支持jsx/tsx

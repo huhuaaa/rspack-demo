@@ -1,9 +1,8 @@
 const loadLocale = (name) => {
   let locale;
   try {
-      locale = require('./locale/' + name + '.js');
+      locale = require('./locale/' + name);
   } catch(e) {
-      locale = {};
   }
   return locale;
 };
