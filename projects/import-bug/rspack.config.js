@@ -17,7 +17,7 @@ module.exports = {
     rules: [
       // swc代替babel构建，支持jsx/tsx
       {
-        test: /\.(j|t)s(x)?$/,
+        test: /\.(j|t)sx?$/,
         loader: 'builtin:swc-loader',
         options: {
           sourceMap: true,

@@ -1,21 +1,22 @@
 import {createRoot } from 'react-dom/client';
 import React from 'react';
-import { Button, message } from 'antd';
-const antd = require('antd');
+import { loadLocale } from './locale';
+try {
+  const lodash = require('lodash');
+} catch(e) {
+
+}
+
+const locale: Record<string, string> = loadLocale('en-US');
 
 const App = () =>  {
-  const onClick = () => {
-    let msg = 'antd@4';
-    if (antd.theme) {
-      msg = 'antd@5';
-    }
-    message.success(msg);
-  };
 
   return (
-    <Button onClick={onClick}>
-      点击我
-    </Button>
+    <div>
+      {
+        locale?.['hello']
+      }
+    </div>
   );
 }
 

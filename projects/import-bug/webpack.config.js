@@ -21,16 +21,23 @@ module.exports = {
       ignoreOrder: true,
     }),
   ],
+  target: [ 'web', 'es5' ],
+  experiments: { topLevelAwait: true, outputModule: false },
   module: {
     rules: [
       // swc代替babel构建，支持jsx/tsx
       {
-        test: /\.(j|t)s(x)?$/,
+        test: /\.(j|t)sx$/,
         exclude: ["/node_modules/"],
         use: [
           {
             loader: 'babel-loader',
             options: {
+              sourceType: 'unambiguous',
+              babelrc: false,
+              configFile: false,
+              cacheDirectory: false,
+              browserslistConfigFile: false,
               presets: [
                 ['@babel/preset-env', { targets: "defaults" }],
                 [
