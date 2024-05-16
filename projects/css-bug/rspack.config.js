@@ -1,8 +1,11 @@
-const { IgnorePlugin } = require('@rspack/core');
+const { CssExtractRspackPlugin } = require('@rspack/core');
 const path = require('path');
 
 module.exports = {
-  mode: 'production',
+  deveServer: {
+
+  },
+  mode: 'development',
   devtool: false,
   entry: {
     main: './src/index.tsx',
@@ -12,10 +15,10 @@ module.exports = {
   },
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
-    extensions: [".ts", ".tsx", ".js", ".json"]
+    extensions: [".ts", ".tsx", ".js", ".jsx", ".json"]
   },
   plugins: [
-    new IgnorePlugin({
+    new CssExtractRspackPlugin({
 
     }),
   ],
@@ -23,7 +26,7 @@ module.exports = {
     rules: [
       // swc代替babel构建，支持jsx/tsx
       {
-        test: /\.(j|t)sx?$/,
+        test: /\.(ts|tsx|js|jsx)?$/,
         loader: 'builtin:swc-loader',
         options: {
           sourceMap: true,
@@ -41,7 +44,7 @@ module.exports = {
               // 开启@装饰器编译
               decorators: true,
               // 动态import
-              dynamicImport: true,
+              dynamicImport: false,
             },
             transform: {
               // react运行环境配置
@@ -57,16 +60,6 @@ module.exports = {
               decoratorMetadata: true,
             },
             externalHelpers: true,
-            experimental: {
-              // plugins: [
-              //   [
-              //     require.resolve('@swc/plugin-transform-imports'), {
-              //     "lodash": {
-              //       "transform": "lodash/{{member}}"
-              //     }
-              //   }]
-              // ],
-            },
           },
           rspackExperiments: {
             // babel-plugin-import的配置
@@ -75,19 +68,35 @@ module.exports = {
               libraryDirectory: 'es',
               style: true,
             }],
-            lodash: {
-
-            },
           },
         },
       },
       {
-        test: /.css/,
-        type: 'css/auto'
+        test: /\.css/,
+        use: [
+          CssExtractRspackPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                namedExport: false,
+              },
+            },
+          }
+        ]
       },
       {
-        test: /.less/,
+        test: /\.less/,
         use: [
+          CssExtractRspackPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                namedExport: false,
+              },
+            },
+          },
           {
             loader: 'less-loader',
             options: {
@@ -100,12 +109,11 @@ module.exports = {
             }
           }
         ],
-        type: 'css/auto',
       },
     ]
   },
   experiments: {
     // 内置css编译
-    // css: false,
+    css: false,
   },
 }
